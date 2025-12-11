@@ -3,12 +3,13 @@ import { useAppSelector } from "../app/hooks";
 import type { RootState } from "../app/store";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { db } from "../firebase";
+import "../styles/history.css";
 
 interface SummaryItem {
   id: string;
   text: string;
   summary: string;
-  timestamp: any; // can convert to Date later
+  timestamp: any;
 }
 
 export default function History() {
@@ -23,6 +24,7 @@ export default function History() {
         const q = query(
           collection(db, "users", user.uid, "summaries"),
           orderBy("timestamp", "desc")
+
         );
 
         const snapshot = await getDocs(q);
@@ -41,21 +43,27 @@ export default function History() {
   }, [user]);
 
   return (
-    <div>
-      <h1>My Summary History</h1>
+    <div className="history-container">
+      <h1 className="history-title">My Summary History</h1>
+
       {history.length === 0 ? (
-        <p>No summaries yet.</p>
+        <p className="history-empty">No summaries found.</p>
       ) : (
-        <ul>
+        <div className="history-list">
           {history.map((item) => (
-            <li key={item.id}>
-              <p><strong>Original:</strong> {item.text}</p>
-              <p><strong>Summary:</strong> {item.summary}</p>
-              <p><em>{item.timestamp?.toDate?.()?.toLocaleString()}</em></p>
-              <hr />
-            </li>
+            <div className="history-card" key={item.id}>
+              <p className="history-label">Original Text</p>
+              <p className="history-text">{item.text}</p>
+
+              <p className="history-label">AI Summary</p>
+              <p className="history-summary">{item.summary}</p>
+
+              <p className="history-time">
+                {item.timestamp?.toDate?.()?.toLocaleString()}
+              </p>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useAppSelector } from "../app/hooks";
 import type { RootState } from "../app/store";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { db } from "../firebase";
+import "../styles/summary.css";
 
 export default function Summary() {
   const user = useAppSelector((state: RootState) => state.auth.user);
@@ -12,40 +13,73 @@ export default function Summary() {
   const handleGenerateSummary = async () => {
     if (!inputText.trim()) return;
 
-    // Fake AI summary (replace with actual API call)
-    const generatedSummary = inputText.slice(0, 500) + "...";
-    setSummary(generatedSummary);
-
-    // Save to Firestore only if user is logged in
-    if (!user?.uid) return;
-
     try {
+      const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [
+                  {
+                    text: `Summarize this text in 4-5 lines:\n\n${inputText}`,
+                  },
+                ],
+              },
+            ],
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      const aiSummary =
+        data?.candidates?.[0]?.content?.parts?.[0]?.text || "No summary generated";
+
+      setSummary(aiSummary);
+
+      if (!user?.uid) return;
+
+      // Save to Firestore
       await addDoc(collection(db, "users", user.uid, "summaries"), {
         text: inputText,
-        summary: generatedSummary,
-        timestamp: serverTimestamp(),
+        summary: aiSummary,
+        timestamp: new Date(),
+
       });
+
     } catch (error) {
-      console.error("Error saving summary:", error);
+      console.error("AI Summary Error:", error);
     }
   };
 
   return (
-    <div>
-      <h1>AI Text Summary</h1>
-      <textarea
-        value={inputText}
-        onChange={(e) => setInputText(e.target.value)}
-        placeholder="Enter text here..."
-        rows={6}
-        cols={50}
-      />
-      <br />
-      <button onClick={handleGenerateSummary}>Generate Summary</button>
+    <div className="summary-container">
+      <h1 className="summary-title">AI Text Summary</h1>
+
+      <div className="summary-card">
+        <textarea
+          className="summary-textarea"
+          value={inputText}
+          onChange={(e) => setInputText(e.target.value)}
+          placeholder="Enter your text here…"
+          rows={8}
+        />
+
+        <button className="summary-btn" onClick={handleGenerateSummary}>
+          Generate Summary
+        </button>
+      </div>
 
       {summary && (
-        <div>
-          <h2>Summary:</h2>
+        <div className="summary-output">
+          <h2>Generated Summary</h2>
           <p>{summary}</p>
         </div>
       )}

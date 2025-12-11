@@ -1,0 +1,78 @@
+.history-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.history-title {
+  text-align: center;
+  font-size: 32px;
+  color: #1e293b;
+  margin-bottom: 30px;
+}
+
+.history-empty {
+  text-align: center;
+  font-size: 18px;
+  color: #64748b;
+  margin-top: 40px;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.history-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-left: 6px solid #4f46e5;
+  animation: fadeIn 0.4s ease;
+}
+
+.history-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  margin-top: 10px;
+}
+
+.history-text {
+  font-size: 16px;
+  color: #1e293b;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+}
+
+.history-summary {
+  font-size: 16px;
+  color: #0f172a;
+  background: #f1f5f9;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+}
+
+.history-time {
+  font-size: 13px;
+  color: #64748b;
+  text-align: right;
+  margin-top: 5px;
+}
+
+/* Smooth fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

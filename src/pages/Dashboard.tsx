@@ -1,15 +1,25 @@
 import Navbar from "../components/Navbar";
+import "../styles/dashboard.css";
 
 export default function Dashboard() {
   return (
-    <div>
+    <div className="dashboard-container">
       <Navbar />
 
-      <h2>Welcome to AI Summary App</h2>
+      <div className="dashboard-content">
+        <h2 className="dashboard-title">Welcome to AI Summary App</h2>
 
-      <p>
-        Use the navigation above to generate summaries or view your history.
-      </p>
+        <p className="dashboard-subtitle">
+          Generate AI-powered summaries and access your saved history — all in one place.
+        </p>
+
+        <div className="dashboard-card">
+          <h3>Start Summarizing</h3>
+          <p>
+            Navigate to the Summary page to generate summaries quickly and efficiently.
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

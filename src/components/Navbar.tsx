@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { logout } from "../features/auth/authSlice";
+import "../styles/navbar.css";
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -15,11 +16,17 @@ export default function Navbar() {
   };
 
   return (
-    <nav style={{ padding: "10px", borderBottom: "1px solid #ccc" }}>
-      <Link to="/dashboard" style={{ marginRight: "15px" }}>Dashboard</Link>
-      <Link to="/summary" style={{ marginRight: "15px" }}>Summary</Link>
-      <Link to="/history" style={{ marginRight: "15px" }}>History</Link>
-      <button onClick={handleLogout}>Logout</button>
+    <nav className="navbar">
+      <div className="nav-left">
+        <h2 className="nav-logo">AI Summary</h2>
+        <Link to="/dashboard" className="nav-link">Dashboard</Link>
+        <Link to="/summary" className="nav-link">Summary</Link>
+        <Link to="/history" className="nav-link">History</Link>
+      </div>
+
+      <button className="nav-logout-btn" onClick={handleLogout}>
+        Logout
+      </button>
     </nav>
   );
 }

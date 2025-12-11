@@ -1,0 +1,43 @@
+.dashboard-container {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f5f7fa;
+  min-height: 100vh;
+}
+
+.dashboard-content {
+  max-width: 800px;
+  margin: 60px auto;
+  text-align: center;
+  padding: 20px;
+}
+
+.dashboard-title {
+  font-size: 32px;
+  color: #1e293b;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.dashboard-subtitle {
+  font-size: 18px;
+  color: #475569;
+  margin-bottom: 40px;
+}
+
+.dashboard-card {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.dashboard-card h3 {
+  margin-bottom: 10px;
+  color: #0f172a;
+}
+
+.dashboard-card p {
+  color: #64748b;
+}
